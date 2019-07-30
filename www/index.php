@@ -66,7 +66,7 @@
                             <li>PHP <?= phpversion(); ?></li>
                             <li>
                                 <?php
-                                $link = mysqli_connect("mysql", "root", "tiger", null);
+                                $link = mysqli_connect("mysql", "root", "password", null);
 
                                 /* check connection */
                                 if (mysqli_connect_errno()) {

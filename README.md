@@ -11,15 +11,11 @@ This is a basic LAMP stack environment built using Docker Compose. It consists f
 
 Clone this repository on your local computer and run the `docker-compose up -d`.
 
-```shell
-git clone https://github.com/sprintcube/docker-compose-lamp.git
-cd docker-compose-lamp/
-git fetch --all
-git checkout 7.2.x
-docker-compose up -d
-```
-
 Your LAMP stack is now ready!! You can access it via `http://localhost`.
+
+To shut down (and keep data) run `docker-compose down`
+
+To clear all add `-v` to previous command, it will delete data in volumes.
 
 ## Configuration
 
@@ -35,6 +31,10 @@ _**DOCUMENT_ROOT**_
 
 It is a document root for Apache server. The default value for this is `./www`. All your sites will go here and will be synced automatically.
 
+Initially there is test files in document root to check Apache and database and 1 test site in folder "site_test" to check virtual hosts. You can add as many sites as you need in subfolders with name `site_{my_site_name}`. Such folders will be ignored by current git, so you can use own git repos in this folders.
+
+With such structure this project is a wrapper for all other projects, and will not interfere with their git. 
+
 _**MYSQL_DATA_DIR**_
 
 This is MySQL data directory. The default value for this is `./data/mysql`. All your MySQL data files will be stored here.
@@ -43,15 +43,20 @@ _**VHOSTS_DIR**_
 
 This is for virtual hosts. The default value for this is `./config/vhosts`. You can place your virtual hosts conf files here.
 
-> Make sure you add an entry to your system's `hosts` file for each virtual host.
+> Make sure you add an entry to your system's `hosts` file for each virtual host by editing `/etc/hosts` file. 
+>
+> Example: `127.0.0.1   test.local`
+
+Recommended naming convention is same as for document root - `site_{my_vhost_name}.conf`. This will prevent vhosts configs from version control.
+
 
 _**APACHE_LOG_DIR**_
 
-This will be used to store Apache logs. The default value for this is `./logs/apache2`.
+This will be used to store Apache logs. The default value for this is `./logs/apache2`. Will be created after first run.
 
 _**MYSQL_LOG_DIR**_
 
-This will be used to store Apache logs. The default value for this is `./logs/mysql`.
+This will be used to store Apache logs. The default value for this is `./logs/mysql`. Will be created after first run.
 
 ## Web Server
 
@@ -72,7 +77,7 @@ By default following modules are enabled.
 You can connect to web server using `docker exec` command to perform various operation on it. Use below command to login to container via ssh.
 
 ```shell
-docker exec -it webserver /bin/bash
+docker exec -it web_server /bin/bash
 ```
 
 ## PHP
@@ -108,7 +113,7 @@ http://localhost:8080/
 
 or use default:
 
-- database: docker
+- database: web_test_base
 - username: docker
 - password: docker
 

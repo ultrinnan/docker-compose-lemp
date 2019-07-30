@@ -4,3 +4,10 @@
 /data/*
 /logs/*
 .DS_Store
+
+/config/vhosts/site_*
+!/config/vhosts/default.conf
+!/config/vhosts/site_test.conf
+
+/www/site_*
+!/www/site_test
